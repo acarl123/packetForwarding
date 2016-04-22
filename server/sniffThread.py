@@ -1,6 +1,6 @@
 from scapy.all import *
 import threading, thread
-
+from scapy.layers.inet import IP
 
 from utils import *
 
@@ -14,7 +14,6 @@ class SniffThread(threading.Thread):
 
     def run(self):
         while 1:
-            p = Ether()/IP()/'Hello World'
-            time.sleep(2)
+            p = sniff(iface='atum0', count=1)
 
             thread.start_new_thread(POST, (p))

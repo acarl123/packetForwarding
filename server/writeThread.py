@@ -11,4 +11,5 @@ class WriteThread(threading.Thread):
         while 1:
             if not self.q: continue
 
-            print self.q.get()
+            p = Raw(self.q.get())
+            sendp(p, iface='atum0')
