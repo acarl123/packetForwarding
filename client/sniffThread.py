@@ -17,4 +17,4 @@ class SniffThread(threading.Thread):
             p = Ether()/IP()/'Hello World'
             time.sleep(2)
 
-            thread.start_new_thread(POST, (p))
+            thread.start_new_thread(POST, (p, IP_ADDRESS))
