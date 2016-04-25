@@ -5,6 +5,7 @@ import threading
 
 class WriteThread(threading.Thread):
     def __init__(self, q):
+        super(WriteThread, self).__init__()
         self.q = q
 
     def run(self):
