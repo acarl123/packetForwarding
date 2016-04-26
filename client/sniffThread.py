@@ -5,12 +5,13 @@ import sys
 
 from scapy.layers.inet import IP
 
-sys.path.append('/home/atumsoft/PycharmProjects/packetForwarding/')
+sys.path.append('/home/andy/PycharmProjects/packetForwarding/')
 from utils import *
 
 
-IP_ADDRESS = '192.168.0.111'
+IP_ADDRESS = '192.168.1.115'
 MAC_ADDR = getHwAddr('enp0s25')
+print MAC_ADDR
 
 
 class SniffThread(threading.Thread):
@@ -25,21 +26,37 @@ class SniffThread(threading.Thread):
             # -------------------------------
 
             # Packet sniff from eth interface -----------
-            p = sniff(iface='enp0s25', count=1)
+            p = sniff(iface='enp0s25', count=1)[0]
             p = self.process_packet(p)
             if not p: continue
             # -------------------------------------------
 
             p = [ord(c) for c in str(p)]
-            print p
             thread.start_new_thread(POST, (p, IP_ADDRESS))
 
     def process_packet(self, p):
+        pkt = p.copy()
         # return if no packet
-        if not p: return
+        if not pkt:
+            print 'none'
+            return
 
-        # return if the packet originated from self
-        if p[Ether].src == MAC_ADDR: return
+        if pkt[Ether].src == '52:33:b7:53:b6:80':
+            return
 
         # return unchanged packet if broadcast addr
-        if p[Ether].src == 'ff:ff:ff:ff:ff:ff': return p
+        if pkt[Ether].dst == 'ff:ff:ff:ff:ff:ff':
+            print 'broadcast'
+            return pkt
+
+        # return if the packet originated from self
+        if pkt[Ether].src == MAC_ADDR:
+            print 'from self'
+            return
+
+        pkt[Ether].src = 'ac:18:26:4b:18:23'
+        pkt[Ether].dst = '52:33:b7:53:b6:80'
+        if IP in pkt:
+            pkt[IP].src = '192.168.2.133'
+            pkt[IP].dst = '192.168.2.135'
+        return pkt
