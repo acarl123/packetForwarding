@@ -15,6 +15,6 @@ class WriteThread(threading.Thread):
             if not self.q: continue
             p = ast.literal_eval(ast.literal_eval(self.q.get()))
             p = ''.join([chr(i) for i in p])
-            print p
             p = Raw(p)
+
             sendp(p, iface='atum0')
