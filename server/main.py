@@ -1,7 +1,10 @@
 from flask import Flask, request
 from flask.ext.api import status
 import Queue
+import os, sys
 
+sys.path.append('/home/atumsoft/PycharmProjects/packetForwarding/')
+from utils import *
 
 from sniffThread import SniffThread
 from writeThread import WriteThread
