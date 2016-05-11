@@ -9,11 +9,12 @@ from utils import *
 
 IP_ADDRESS = '192.168.1.116'
 try:
-    MAC_ADDR = getHwAddr('atum0')
+    MAC_ADDR = getHwAddr('mytun')
 except IOError:
-    os.system('ip link add name atum0 type dummy')
-    os.system('ifconfig atum0 up arp')
-    os.system('ifconfig atum0 192.168.2.135')
+    print 'error creating'
+    # os.system('ip link add name atum0 type dummy')
+    # os.system('ifconfig atum0 up arp')
+    # os.system('ifconfig atum0 192.168.2.135')
 
 
 class SniffThread(threading.Thread):
@@ -27,7 +28,7 @@ class SniffThread(threading.Thread):
             # time.sleep(2)
             # -------------------------------
 
-            sniff(iface='atum0', prn=self.process_packet)
+            sniff(iface='mytun', prn=self.process_packet)
 
 
     def process_packet(self, pkt):

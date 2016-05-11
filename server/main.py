@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask.ext.api import status
 import Queue
 import os, sys
+from pytun import TunTapDevice, IFF_TAP
 
 sys.path.append('/home/atumsoft/PycharmProjects/packetForwarding/')
 from utils import *
@@ -23,6 +24,13 @@ def main(path, *args, **kwargs):
 
 
 if __name__ == '__main__':
+    tap = TunTapDevice(name='mytun', flags=IFF_TAP)
+    tap.addr = '192.168.2.136'
+    tap.dstaddr = '192.168.2.133'
+    tap.netmask = '255.255.255.0'
+    tap.hwaddr = '\x4e\xe4\xd0\x38\xa1\xc5'
+    tap.mtu = 1500
+    tap.up()
 
     sniffer = SniffThread()
     sniffer.setDaemon(True)
