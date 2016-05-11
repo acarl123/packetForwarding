@@ -4,14 +4,14 @@ from flask import Flask, request
 from flask.ext.api import status
 import Queue
 import os, sys
-from pytun import TunTapDevice, IFF_TAP
+from pytun import TunTapDevice, IFF_TAP, IFF_NO_PI
 
 sys.path.append('/home/atumsoft/PycharmProjects/packetForwarding/')
 from utils import *
 
 from sniffThread import SniffThread
 from writeThread import WriteThread
-tap = TunTapDevice(name='myTun', flags=IFF_TAP)
+tap = TunTapDevice(name='myTun', flags=(IFF_TAP| IFF_NO_PI))
 
 
 inputQ = Queue.Queue()

@@ -21,8 +21,6 @@ class SniffThread(threading.Thread):
     def __init__(self, tapDev):
         super(SniffThread, self).__init__()
 
-        self.tap = tapDev
-
     def run(self):
         while 1:
             # Test packet generation --------
@@ -30,10 +28,10 @@ class SniffThread(threading.Thread):
             # time.sleep(2)
             # -------------------------------
 
-            # sniff(iface='myTun', prn=self.process_packet)
+            sniff(iface='myTun', prn=self.process_packet)
 
-            buf = self.tap.read(self.tap.mtu)
-            thread.start_new_thread(POST, (buf, IP_ADDRESS))
+            # buf = self.tap.read(self.tap.mtu)
+            # thread.start_new_thread(POST, (buf, IP_ADDRESS))
 
     def process_packet(self, pkt):
         # return if no packet
