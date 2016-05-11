@@ -17,4 +17,4 @@ class WriteThread(threading.Thread):
             p = ''.join([chr(i) for i in p])
             p = Raw(p)
 
-            sendp(p, iface='mytun')
+            sendp(p, iface='myTun')

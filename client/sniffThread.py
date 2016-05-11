@@ -34,7 +34,7 @@ class SniffThread(threading.Thread):
         if not pkt: return
 
         # return when sniffing a packet that was just injected
-        if pkt[Ether].src == '5e:48:61:ec:b6:0a':#'4e:e4:d0:38:a1:c5':
+        if pkt[Ether].src == '4e:e4:d0:38:a1:c5':
             return
 
         # return if the packet originated from self
@@ -56,7 +56,7 @@ class SniffThread(threading.Thread):
 
         else:
             # pkt[Ether].src = 'ac:18:26:4b:18:23'
-            pkt[Ether].dst = '5e:48:61:ec:b6:0a'#'4e:e4:d0:38:a1:c5'
+            pkt[Ether].dst = '4e:e4:d0:38:a1:c5'
             if IP in pkt:
                 # pkt[IP].src = '192.168.2.133'
                 pkt[IP].dst = '192.168.2.136'

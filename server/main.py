@@ -11,7 +11,7 @@ from utils import *
 
 from sniffThread import SniffThread
 from writeThread import WriteThread
-tap = TunTapDevice(name='mytun', flags=IFF_TAP)
+tap = TunTapDevice(name='myTun', flags=IFF_TAP)
 
 
 inputQ = Queue.Queue()
