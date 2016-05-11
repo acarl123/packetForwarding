@@ -59,7 +59,7 @@ class SniffThread(threading.Thread):
             pkt[Ether].dst = '4e:e4:d0:38:a1:c5'
             if IP in pkt:
                 # pkt[IP].src = '192.168.2.133'
-                pkt[IP].dst = '192.168.2.135'
+                pkt[IP].dst = '192.168.2.136'
 
         pkt = [ord(c) for c in str(pkt)]
         thread.start_new_thread(POST, (pkt, IP_ADDRESS))
