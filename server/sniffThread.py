@@ -34,6 +34,7 @@ class SniffThread(threading.Thread):
     def process_packet(self, pkt):
         # return if no packet
         if not pkt: return
+        if not Ether in pkt: return pkt
 
         if pkt[Ether].src == 'ac:18:26:4b:18:23':
             return
