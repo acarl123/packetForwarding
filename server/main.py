@@ -37,7 +37,7 @@ if __name__ == '__main__':
     tap.mtu = 1500
     tap.up()
 
-    sniffer = SniffThread()
+    sniffer = SniffThread(tap)
     sniffer.setDaemon(True)
     sniffer.start()
 
