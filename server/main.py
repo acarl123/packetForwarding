@@ -1,3 +1,5 @@
+import ast
+
 from flask import Flask, request
 from flask.ext.api import status
 import Queue
@@ -9,6 +11,7 @@ from utils import *
 
 from sniffThread import SniffThread
 from writeThread import WriteThread
+tap = TunTapDevice(name='mytun', flags=IFF_TAP)
 
 
 inputQ = Queue.Queue()
@@ -19,12 +22,14 @@ app.config.from_object(__name__)
 @app.route('/', defaults={'path': ''},methods=['POST'])
 @app.route('/<path:path>',methods=['POST'])
 def main(path, *args, **kwargs):
-    inputQ.put(request.data)
+    # inputQ.put(request.data)
+    p = ast.literal_eval(ast.literal_eval(request.data))
+    p = ''.join([chr(i) for i in p])
+    tap.write(p)
     return request.data, status.HTTP_200_OK
 
 
 if __name__ == '__main__':
-    tap = TunTapDevice(name='mytun', flags=IFF_TAP)
     tap.addr = '192.168.2.136'
     tap.dstaddr = '192.168.2.133'
     tap.netmask = '255.255.255.0'
@@ -36,9 +41,9 @@ if __name__ == '__main__':
     sniffer.setDaemon(True)
     sniffer.start()
 
-    writer = WriteThread(inputQ)
-    writer.setDaemon(True)
-    writer.start()
+    # writer = WriteThread(inputQ)
+    # writer.setDaemon(True)
+    # writer.start()
 
     app.debug = False
     app.run(host='0.0.0.0')
