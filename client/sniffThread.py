@@ -9,7 +9,7 @@ sys.path.append('/home/andy/PycharmProjects/packetForwarding/')
 from utils import *
 
 
-IP_ADDRESS = '192.168.1.120'
+IP_ADDRESS = '192.168.50.65'
 MAC_ADDR = getHwAddr('enp0s25')
 print MAC_ADDR
 
@@ -22,11 +22,12 @@ class SniffThread(threading.Thread):
         while 1:
             # Test packet generation --------
             # p = Ether()/IP()/'Hello World'
+            # self.process_packet(p)
             # time.sleep(2)
             # -------------------------------
 
             # Packet sniff from eth interface -----------
-            sniff(iface='enp0s25', prn=self.process_packet)
+            sniff(iface='myTun', prn=self.process_packet)
             # -------------------------------------------
 
     def process_packet(self, pkt):
@@ -34,7 +35,7 @@ class SniffThread(threading.Thread):
         if not pkt: return
 
         # return when sniffing a packet that was just injected
-        if pkt[Ether].src == '4e:e4:d0:38:a1:c5':
+        if pkt[Ether].src == '00:ff:c6:a8:79:4D':#'4e:e4:d0:38:a1:c5':
             return
 
         # return if the packet originated from self
@@ -56,10 +57,10 @@ class SniffThread(threading.Thread):
 
         else:
             # pkt[Ether].src = 'ac:18:26:4b:18:23'
-            pkt[Ether].dst = '4e:e4:d0:38:a1:c5'
+            pkt[Ether].dst = '00:ff:c6:a8:79:4D'#'4e:e4:d0:38:a1:c5'
             if IP in pkt:
                 # pkt[IP].src = '192.168.2.133'
-                pkt[IP].dst = '192.168.2.136'
+                pkt[IP].dst = '192.168.2.131'
 
         pkt = [ord(c) for c in str(pkt)]
         thread.start_new_thread(POST, (pkt, IP_ADDRESS))
