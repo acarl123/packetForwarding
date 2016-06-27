@@ -1,6 +1,7 @@
 import requests
 import json
-import fcntl, socket, struct
+# import fcntl
+import socket, struct
 
 
 # Code for posting to the webserver in a separate thread
